@@ -1,0 +1,124 @@
+# ==============================================================================
+# Базовые правила для всех файлов
+# ==============================================================================
+* text=auto eol=lf
+
+# ==============================================================================
+# Языки и фреймворки
+# ==============================================================================
+*.php diff=php
+*.blade.php diff=html
+*.js diff=javascript
+*.jsx diff=javascript
+*.ts diff=typescript
+*.tsx diff=typescript
+*.json diff=json
+*.css diff=css
+*.scss diff=css
+*.less diff=css
+*.html diff=html
+*.xml diff=html
+*.svg diff=html
+*.md diff=markdown
+*.yml text eol=lf
+*.yaml text eol=lf
+*.env text eol=lf
+*.sh text eol=lf
+*.bash text eol=lf
+*.sql text eol=lf
+*.txt text eol=lf
+*.log text eol=lf
+*.lock text eol=lf
+
+# ==============================================================================
+# Конфигурационные файлы
+# ==============================================================================
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.php-cs-fixer.dist.php text eol=lf
+.php-cs-fixer.cache text eol=lf
+.phpunit.result.cache text eol=lf
+.styleci.yml text eol=lf
+.prettierrc text eol=lf
+.prettierignore text eol=lf
+.eslintrc* text eol=lf
+.eslintignore text eol=lf
+babel.config.* text eol=lf
+postcss.config.* text eol=lf
+tailwind.config.* text eol=lf
+vite.config.* text eol=lf
+webpack.mix.js text eol=lf
+package.json text eol=lf
+package-lock.json text eol=lf
+composer.json text eol=lf
+composer.lock text eol=lf
+docker-compose.yml text eol=lf
+Dockerfile text eol=lf
+
+# ==============================================================================
+# Изображения (бинарные)
+# ==============================================================================
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.tif binary
+*.tiff binary
+*.bmp binary
+*.webp binary
+*.avif binary
+
+# ==============================================================================
+# Шрифты (бинарные)
+# ==============================================================================
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+
+# ==============================================================================
+# Документы (бинарные)
+# ==============================================================================
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+# ==============================================================================
+# Архивы и медиа (бинарные)
+# ==============================================================================
+*.zip binary
+*.tar binary
+*.gz binary
+*.tar.gz binary
+*.rar binary
+*.7z binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+*.ogg binary
+*.wav binary
+
+# ==============================================================================
+# Файлы для экспорта (не попадают в git archive)
+# ==============================================================================
+/.github export-ignore
+/.vscode export-ignore
+/.idea export-ignore
+/tests export-ignore
+/phpunit.xml export-ignore
+/phpunit.xml.dist export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/CHANGELOG.md export-ignore
+/CONTRIBUTING.md export-ignore
+/LICENSE.md export-ignore
+/README.md export-ignore
+/.styleci.yml export-ignore
+/.editorconfig export-ignore

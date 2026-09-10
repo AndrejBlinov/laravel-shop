@@ -1,0 +1,128 @@
+/* =========================================
+   1. Промо-полоска
+   ========================================= */
+.top-bar {
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+}
+.top-bar i {
+    margin: 0 4px;
+}
+
+/* =========================================
+   2. Логотип
+   ========================================= */
+.navbar-brand {
+    transition: color 0.2s;
+}
+.navbar-brand:hover {
+    color: #0056b3 !important;
+}
+
+/* =========================================
+   3. Пункты меню (Десктоп)
+   ========================================= */
+.navbar-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    position: relative; /* Обязательно для ::after */
+    transition: color 0.2s;
+}
+.navbar-nav .nav-link:hover {
+    color: #0d6efd;
+}
+
+/* Активный пункт (подчеркивание) */
+.navbar-nav .nav-link.active {
+    color: #0d6efd !important;
+    font-weight: 600;
+}
+.navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px; /* Чуть выше самого низа, чтобы не обрезалось */
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background-color: #0d6efd;
+    border-radius: 2px;
+}
+
+/* =========================================
+   4. Поиск и Иконки
+   ========================================= */
+.navbar .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
+}
+
+.navbar .bi-person,
+.navbar .bi-heart,
+.navbar .bi-cart3 {
+    color: #333; /* Явный цвет, чтобы не было сюрпризов */
+    transition: transform 0.2s, color 0.2s;
+}
+.navbar .bi-person:hover,
+.navbar .bi-heart:hover,
+.navbar .bi-cart3:hover {
+    color: #0d6efd !important;
+    transform: scale(1.15);
+}
+
+/* Бейдж корзины */
+#cart-count {
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+}
+#cart-count.pulse {
+    animation: pulse 0.5s ease;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+/* =========================================
+   5. АДАПТИВНОСТЬ (ИСПРАВЛЕННАЯ ВЕРСИЯ)
+   ========================================= */
+@media (max-width: 991.98px) {
+    /* 1. Гарантируем, что раскрывающийся блок имеет корректную высоту */
+    .navbar-collapse {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    /* 2. Делаем ссылки на мобильных удобными для пальца и убираем опасный ::after */
+    .navbar-nav .nav-link {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f0f0f0; /* Разделитель вместо подчеркивания */
+    }
+    
+    /* Отключаем абсолютное позиционирование на мобильных, чтобы не ломать расчет высоты */
+    .navbar-nav .nav-link.active::after {
+        display: none;
+    }
+    /* Вместо подчеркивания на мобильном делаем легкий фон */
+    .navbar-nav .nav-link.active {
+        background-color: #f0f7ff;
+        border-radius: 4px;
+        padding-left: 0.75rem;
+    }
+
+    /* 3. Поиск на всю ширину */
+    .navbar .input-group {
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    /* 4. Блок иконок: центрируем и даем ему явную ширину */
+    .navbar .d-flex.gap-3 {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+        justify-content: center;
+        width: 100%;
+    }
+}
