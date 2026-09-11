@@ -1,6 +1,6 @@
 {{-- Промо-полоска сверху (опционально) --}}
 <div class="top-bar bg-dark text-white text-center py-2 small">
-    <i class="bi bi-truck"></i> Бесплатная доставка от 3000 ₽ | 
+    <i class="bi bi-truck"></i> Бесплатная доставка от 3000 ₽ |
     <i class="bi bi-telephone"></i> +7 (999) 123-45-67
 </div>
 
@@ -27,8 +27,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('products*') ? 'active fw-bold' : '' }}" 
-                       href="{{ route('products.index') }}">
+                    <a class="nav-link {{ request()->is('products*') ? 'active fw-bold' : '' }}"
+                        href="{{ route('products.index') }}">
                         Каталог
                     </a>
                 </li>
@@ -52,8 +52,8 @@
             {{-- Поиск --}}
             <form class="d-flex me-3" role="search" action="{{ route('products.index') }}" method="GET">
                 <div class="input-group">
-                    <input class="form-control" type="search" name="search" placeholder="Поиск товаров..." 
-                           value="{{ request('search') }}">
+                    <input class="form-control" type="search" name="search" placeholder="Поиск товаров..."
+                        value="{{ request('search') }}">
                     <button class="btn btn-outline-primary" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -63,20 +63,39 @@
             {{-- Иконки справа --}}
             <div class="d-flex align-items-center gap-3">
                 {{-- Личный кабинет --}}
-                <a href="/account" class="text-dark text-decoration-none" title="Личный кабинет">
-                    <i class="bi bi-person fs-5"></i>
-                </a>
-                
+                @auth
+                    {{-- Если пользователь авторизован --}}
+                    <a href="{{ route('cabinet.index') }}"
+                        class="text-dark text-decoration-none d-flex align-items-center gap-1">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                    </a>
+
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-dark text-decoration-none p-0" title="Выход">
+                            <i class="bi bi-box-arrow-right fs-5"></i>
+                        </button>
+                    </form>
+                    
+                @else
+                    {{-- Если гость --}}
+                    <a href="{{ route('login') }}" class="text-dark text-decoration-none">
+                        <i class="bi bi-person fs-5"></i>
+                        <span class="d-none d-md-inline">Войти</span>
+                    </a>
+                @endauth
+
                 {{-- Избранное --}}
                 <a href="/favorites" class="text-dark text-decoration-none" title="Избранное">
                     <i class="bi bi-heart fs-5"></i>
                 </a>
-                
+
                 {{-- Корзина --}}
                 <a href="/cart" class="text-dark text-decoration-none position-relative" title="Корзина">
                     <i class="bi bi-cart3 fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
-                          id="cart-count" style="font-size: 0.65rem;">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        id="cart-count" style="font-size: 0.65rem;">
                         0
                     </span>
                 </a>
