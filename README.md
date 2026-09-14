@@ -44,3 +44,85 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+Инструкция по поднятию проекта на нулевом компьютере (установка окружения)
+
+1) устанавливаем wsl. в консоли пишем wsl --install , происходитс качиваение дистрибутива. После перезагрузить комп. Если в консоли нет wsl (ошибка при вызове), запускаем повторно wsl --install
+2) устанавливаем докер (скачиваем дистрибутив). Запускаем и в Settings\ Resourses во вкладке WSL включаем настройку и ставим галочку, наждимаем Apply and restart
+3) В vsCode устанавливаем плагин WSL. Далее shift+ctrl+P WSL connect
+4) проверяем установился ли докер docker ps . Если видим ошибку прав, то sudo usermod -aG docker $USER  (Вводим пароль при создании ubuntu) , далее перезагрузаем wsl wsl --shutdown   . Перезаходим, проверяем
+5) Если в этом процессе сам докер начнет выдавать ошибку, то делаем следующее: заходим в wsl и пишем 
+	sudo mkdir -p /run/docker-desktop
+	sudo chmod 755 /run/docker-desktop
+После чего  wsl --shutdown  и перезаходим
+6) wsl    docker ps  - должнно пояявиться список пусток докеров.
+7) далее копируем проект через git clone
+8) устанавливаем в wsl php и композер
+	# Обновляем пакеты и ставим нужный минимум PHP
+	sudo apt update
+	sudo apt install php-cli php-xml php-mbstring unzip curl -y
+
+	# Скачиваем и устанавливаем Composer глобально
+	curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
+	# Проверяем, что Composer работает
+	composer --version
+
+Если версия php не та, что в проекте (я использовал 8.3), то
+
+		# Устанавливаем утилиту для добавления PPA
+		sudo apt install software-properties-common -y
+
+		# Добавляем репозиторий с PHP
+		sudo add-apt-repository ppa:ondrej/php -y
+
+		# Обновляем списки пакетов
+		sudo apt update
+
+9) устанавливаем все пакеты и зависимости docker run --rm -v $(pwd):/app -w /app composer install --ignore-platform-req=php
+
+10) пробуем поднять докер и запустить проект  ./vendor/bin/sail up -d
+
+11) если все запустилось, но по localhost ошибка vendor/laravel/framework/src/Illuminate/Encryption/EncryptionServiceProvider.php:83 
+	генерируем ключ ./vendor/bin/sail artisan key:generate
+
+12) если ошибка БД, то проверяем .env
+	DB_CONNECTION=mysql
+	DB_HOST=mysql
+	DB_PORT=3306
+	DB_DATABASE=laravel
+	DB_USERNAME=sail
+	DB_PASSWORD=password
+
+13) прогоняем все миграции и сиды
+	./vendor/bin/sail artisan config:clear
+	./vendor/bin/sail artisan migrate
+	./vendor/bin/sail artisan db:seed
+
+Если при миграции  Illuminate\Database\QueryException 
+
+  SQLSTATE[HY000] [1045] Access denied for user 'sail'@'172.18.0.5' (using password: YES) (Connection: mysql, Ho
+
+то
+	./vendor/bin/sail down
+	docker volume rm $(docker volume ls -q | grep mysql)
+	docker compose down -v
+
+
+
+
+14) устанавливаем окружение для vite
+		# Скачиваем скрипт установки Node.js 20 LTS
+		curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+
+		# Устанавливаем Node.js (npm идёт в комплекте)
+		sudo apt install nodejs -y
+
+		# Проверяем версии
+		node -v
+		npm -v
+	
