@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -67,8 +68,9 @@ class AuthController extends Controller
     /**
      * Выход из системы
      */
-    public function logout(LoginRequest $request): RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
+
         Auth::logout();
 
         // Инвалидируем сессию
