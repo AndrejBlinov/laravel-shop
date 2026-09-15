@@ -49,6 +49,27 @@
                 </li>
             </ul>
 
+            <div class="city-selector">
+                <form method="POST" action="{{ route('city.store') }}" class="d-inline">
+                    @csrf
+                    <select name="city_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">-- Выберите город --</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city->id }}" 
+                                {{ $currentCity && $currentCity->id == $city->id ? 'selected' : '' }}>
+                                {{ $city->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+                
+                @if($currentCity)
+                    <small class="text-muted ms-2">
+                        Выбран: <strong>{{ $currentCity->name }}</strong>
+                    </small>
+                @endif
+            </div>
+
             {{-- Поиск --}}
             <form class="d-flex me-3" role="search" action="{{ route('products.index') }}" method="GET">
                 <div class="input-group">

@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CabinetController;
+use App\Http\Controllers\CityController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,3 +47,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+Route::post('/city', [CityController::class, 'store'])->name('city.store');
+Route::post('/city/clear', [CityController::class, 'clear'])->name('city.clear');
