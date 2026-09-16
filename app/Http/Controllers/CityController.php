@@ -15,7 +15,6 @@ class CityController extends Controller
         ]);
 
         session(['city_id' => $request->city_id]);
-
         return back();
     }
 

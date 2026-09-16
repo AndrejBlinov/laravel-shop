@@ -7,19 +7,19 @@
 @section('content')
     <h1>🛒 Каталог товаров</h1>
 
-    @if ($products->count() > 0)
+    @if (count($products) > 0)
         <div class="products-grid">
             @foreach ($products as $product)
                 <div class="product-card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-dark">
-                                {{ $product->name }}
+                            <a href="{{ route('products.show', $product['id']) }}" class="text-decoration-none text-dark">
+                                {{ $product['name'] }}
                             </a>
                         </h5>
-                        <p class="card-text text-muted">{{ Str::limit($product->description, 100) }}</p>
-                        <p class="product-price">{{ number_format($product->price, 0, '.', ' ') }} руб.</p>
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm">
+                        <p class="card-text text-muted">{{ Str::limit($product['description'], 200) }}</p>
+                        <p class="product-price">{{ number_format($product['price'], 0, '.', ' ') }} руб.</p>
+                        <a href="{{ route('products.show', $product['id']) }}" class="btn btn-primary btn-sm">
                             Подробнее
                         </a>
                     </div>

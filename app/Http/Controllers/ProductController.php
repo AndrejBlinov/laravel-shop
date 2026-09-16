@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -12,7 +13,8 @@ class ProductController extends Controller
     {
         $cityId = session('city_id');
 
-        $products = Product::query()
+        $products = Cache::remember('produts_city_'. ($cityId ?? 'all'), 120, function() use ($cityId) {
+            return Product::query()
             ->when($cityId, function ($query, $cityId) {
                 // Если город выбран — показываем товары, у которых есть остаток на складах этого города
                 $query->whereHas('warehouses', function ($q) use ($cityId) {
@@ -26,7 +28,8 @@ class ProductController extends Controller
                 });
             })
             ->with(['warehouses.city']) // подгружаем склады и их города
-            ->get();
+            ->get()->toArray();
+        });
 
         return view('products.index', compact('products'));
     }
