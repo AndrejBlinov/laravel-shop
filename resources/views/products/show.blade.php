@@ -63,15 +63,33 @@
             </div>
             @endif
 
+            @php
+            // Считаем общий остаток товара на всех складах выбранного города
+            $stockInCurrentCity = 0;
+            if ($cityId) {
+            $stockInCurrentCity = $product->warehouses
+            ->where('city_id', $cityId)
+            ->sum('pivot.quantity');
+            }
+            @endphp
+
             {{-- Кнопки действий --}}
-            <div class="product-actions d-flex gap-2 mb-4">
-                <button class="btn btn-primary btn-lg flex-grow-1" id="addToCartBtn">
-                    <i class="bi bi-cart-plus"></i> В корзину
-                </button>
-                <button class="btn btn-outline-secondary btn-lg" title="В избранное">
-                    <i class="bi bi-heart"></i>
-                </button>
+            @if(!$cityId)
+            {{-- Сценарий 1: Город не выбран --}}
+            <div id="city-selection-alert" class="alert alert-warning">
+                Для добавления товара в корзину необходимо выбрать город
             </div>
+            @elseif($stockInCurrentCity > 0)
+            {{-- Сценарий 2: Город выбран и товар есть в наличии --}}
+            <button id="add-to-cart-btn" class="btn btn-primary btn-lg">
+                В корзину
+            </button>
+            @else
+            {{-- Сценарий 3: Город выбран, но товара нет --}}
+            <p class="text-danger fs-5">
+                К сожалению, товара нет в наличии {{ $currentCity?->name ? 'в городе ' . $currentCity?->name  : 'в выбранном городе' }}
+            </p>
+            @endif
 
             {{-- Характеристики (если есть) --}}
             @if($product->features)
@@ -106,7 +124,9 @@
                     @php
                     $isCurrentCity = $cityId && $warehouse->city_id == $cityId;
                     @endphp
-                    <tr class="{{ $isCurrentCity ? 'table-success fw-bold' : '' }}">
+                    <tr class="{{ $isCurrentCity ? 'table-success fw-bold' : '' }}"
+                        data-warehouse-id="{{ $warehouse->id }}"
+                        data-is-current="{{ $isCurrentCity ? 'true' : 'false' }}">
                         <td>{{ $warehouse->city->name }}</td>
                         <td>{{ $warehouse->name }}</td>
                         <td>

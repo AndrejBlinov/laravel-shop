@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
 use App\Models\City;
 
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (!Schema::hasTable('cities')) {
+            View::share('cities', collect());
+            View::share('currentCity', null);
+            return;
+        }
 
         $cities = Cache::remember('city_list', 3600, function () {
             $cities = City::with('warehouses')->get()->toArray();
